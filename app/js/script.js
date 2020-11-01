@@ -1,4 +1,6 @@
-"use strict";
+/* jslint node: true */
+/* jshint browser: true */
+'use strict';
 
 // let start = new Date();
 
@@ -127,28 +129,28 @@
 // const double = a => a * 2;
 // console.log(double(5));
 
-class Rectangle {
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
-    }
+// class Rectangle {
+//     constructor(height, width) {
+//         this.height = height;
+//         this.width = width;
+//     }
 
-    calcArea() {
-        return this.height * this.width;
-    }
-}
+//     calcArea() {
+//         return this.height * this.width;
+//     }
+// }
 
-class ColoredRectanglewithText extends Rectangle {
-    constructor(height, width, text, bgColor) {
-        super(height, width);
-        this.text = text;
-        this.bgColor = bgColor;
-    }
+// class ColoredRectanglewithText extends Rectangle {
+//     constructor(height, width, text, bgColor) {
+//         super(height, width);
+//         this.text = text;
+//         this.bgColor = bgColor;
+//     }
 
-    showMyProps() {
-        console.log(`Текст ${this.text} цвет ${this.bgColor}`);
-    } 
-}
+//     showMyProps() {
+//         console.log(`Текст ${this.text} цвет ${this.bgColor}`);
+//     } 
+// }
 
 // const square = new Rectangle(10,3);
 // const big = new Rectangle(10,10);
@@ -156,10 +158,75 @@ class ColoredRectanglewithText extends Rectangle {
 // console.log(square.calcArea());
 // console.log(big.calcArea());
 
-const div = new ColoredRectanglewithText(25,10,'Text', 'red');
+// const div = new ColoredRectanglewithText(25,10,'Text', 'red');
 
-div.showMyProps();
-console.log(div.calcArea());
+// div.showMyProps();
+// console.log(div.calcArea());
+
+/**** JSON - parse and stringify metod and clone object*/
+
+// const persone = {
+//     name : 'Alex',
+//     tel : '+74444444',
+//     parents : {
+//         dad : 'Mike',
+//         mom : 'Roze'
+//     }
+// };
+
+// //console.log(JSON.parse(JSON.stringify(persone)));
+
+// const clone = JSON.parse(JSON.stringify(persone));
+
+// clone.parents.dad = 'Alex';
+
+// console.log(persone);
+// console.log(clone);
+
+
+//  AJAX 
+
+    const inputRub = document.querySelector('#rub'),
+          inputUsd = document.querySelector('#usd');
+      
+    inputRub.addEventListener('input', () => {
+        const request = new XMLHttpRequest();
+        //request.open(method, url, async, login, pass);
+        request.open('GET', 'js/current.json');
+        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        request.send();
+
+
+        //// request.addEventListener('readystatechange', () => {
+        ////   if (request.readyState === 4 && request.status == 200){
+        ////        //console.log(request.response);
+        ////       const data = JSON.parse(request.response);
+        ////       console.log(data);
+        ////        inputUsd.value = (inputRub.value/data.current.usd).toFixed(2);
+        ////   } else {
+        ////       inputUsd.value = 'Что-то пошло не так';
+        ////   }
+        //// });
+
+        request.addEventListener('load', () => {
+            if (request.status == 200){
+                //console.log(request.response);
+                const data = JSON.parse(request.response);
+                console.log(data);
+                inputUsd.value = (inputRub.value/data.current.usd).toFixed(2);
+            } else {
+                inputUsd.value = 'Что-то пошло не так';
+            }
+        });
+
+        //status - 200 или 404 код ощибки или успешности
+        //status-Text - тект ответа
+        //response - ответ
+        //readyState
+
+    });
+
+
 
 
 
