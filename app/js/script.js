@@ -196,7 +196,6 @@
         request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
         request.send();
 
-
         //// request.addEventListener('readystatechange', () => {
         ////   if (request.readyState === 4 && request.status == 200){
         ////        //console.log(request.response);
@@ -208,16 +207,16 @@
         ////   }
         //// });
 
-        request.addEventListener('load', () => {
-            if (request.status == 200){
-                //console.log(request.response);
-                const data = JSON.parse(request.response);
-                console.log(data);
-                inputUsd.value = (inputRub.value/data.current.usd).toFixed(2);
-            } else {
-                inputUsd.value = 'Что-то пошло не так';
-            }
-        });
+        // request.addEventListener('load', () => {
+        //     if (request.status == 200){
+        //         //console.log(request.response);
+        //         const data = JSON.parse(request.response);
+        //         console.log(data);
+        //         inputUsd.value = (inputRub.value/data.current.usd).toFixed(2);
+        //     } else {
+        //         inputUsd.value = 'Что-то пошло не так';
+        //     }
+        // });
 
         //status - 200 или 404 код ощибки или успешности
         //status-Text - тект ответа
@@ -226,6 +225,58 @@
 
     });
 
+    // Promise
+
+    // console.log('Запрос данных...');
+    
+    // const req = new Promise((resolve, reject) =>{
+    //     setTimeout(() => {
+    //         console.log('Подготовка данных...');
+    
+    //         const product = {
+    //             name : 'TV',
+    //             price : 25
+    //         };
+    
+    //         resolve(product);
+    //     }, 2000);
+    // });
+
+    // req.then((data) => {
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             data.status = 'order';
+    //             resolve(data);
+    //         //    reject();
+    //         }, 2000);
+    //     });
+    // }).then(data => {
+    //     data.modify = true;
+    //     return data;
+    // }).then(data => {
+    //     console.log(data);
+    // }).catch(() => {
+    //     console.error('Произошла ощибка');
+    // }).finally(() => {
+    //     console.log('Finally');
+    // });
+
+    // const test = time => {
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => resolve(), time); 
+    //     });
+    // };
+
+    // // test(1000).then(() => console.log('1000 ms'));
+    // // test(2000).then(() => console.log('2000 ms'));
+    
+    // // Promise.all([test(1000), test(2000)]).then(() => {
+    // //     console.log('All');
+    // // });
+    
+    // Promise.race([test(1000), test(2000)]).then(() => {
+    //     console.log('All');
+    // });
 
 
 
