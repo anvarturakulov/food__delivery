@@ -379,6 +379,84 @@ document.addEventListener('DOMContentLoaded', ()=>{
         showSliderItem(currentSliderIndex);
     }
 
-    sliderConstruct('.offer__slide','#current', '#total', '.offer__slider-prev', '.offer__slider-next');
+    function sliderCaruselConstruct(sliderItemDiv,currentNumberTitleDiv,totalNumberTitlediv,
+        sliderBtnPrevDiv,sliderBtnNextDiv,sliderWrapperDiv, SliderInnerDiv) {
+        
+        const sliderItems = document.querySelectorAll(sliderItemDiv),
+              currentNumberTitle = document.querySelector(currentNumberTitleDiv),
+              totalNumberTitle = document.querySelector(totalNumberTitlediv),
+              sliderBtnPrev = document.querySelector(sliderBtnPrevDiv),
+              sliderBtnNext = document.querySelector(sliderBtnNextDiv),
+              sliderWrapper = document.querySelector(sliderWrapperDiv),
+              sliderInner = document.querySelector(SliderInnerDiv);
+              
+        let width = window.getComputedStyle(sliderWrapper).width;
+        width = +width.slice(0,width.length-2);
+
+        let currentSliderIndex = 0;
+        
+        titleNumberSlide(currentSliderIndex);
+        
+        sliderInner.style.width = 100*sliderItems.length+'%';
+        sliderInner.style.display = 'flex';
+        sliderInner.style.transition = '0.5s all';
+        sliderWrapper.style.overflow = 'hidden';
+
+        let offset = 0;
+
+        function numberToText(num) {
+            if (num <10 && num > 0) {
+                return `0${num}`;
+            }
+            else {
+                return `${num}`;
+            }
+        }
+
+        function titleNumberSlide(index) {
+            currentNumberTitle.textContent = numberToText(index+1);
+            totalNumberTitle.textContent = numberToText(sliderItems.length);
+        }
+
+
+        function motionSlider(index, side, sliderItems) {
+            if (side) {
+                currentSliderIndex = ++index;
+                offset += width;
+                
+                if (currentSliderIndex > sliderItems.length-1) {
+                    currentSliderIndex = 0;
+                    offset = 0;
+                }
+                sliderInner.style.transform = `translateX(-${offset}px)`;
+                console.log(offset);
+            } else {
+                
+                currentSliderIndex = --index;
+                offset = currentSliderIndex*width;
+                if (currentSliderIndex < 0) {
+                    currentSliderIndex = sliderItems.length-1;
+                    offset = (sliderItems.length-1)*width;
+                }
+                sliderInner.style.transform = `translateX(-${offset}px)`;
+            }
+            
+            titleNumberSlide(currentSliderIndex);
+        }
+
+        sliderBtnPrev.addEventListener('click', ()=> {
+            motionSlider(currentSliderIndex, false, sliderItems);
+        });
+    
+        sliderBtnNext.addEventListener('click', ()=> {
+            motionSlider(currentSliderIndex, true, sliderItems);
+        });
+        
+    }
+
+
+    //sliderConstruct('.offer__slide','#current', '#total', '.offer__slider-prev', '.offer__slider-next');
+    sliderCaruselConstruct('.offer__slide','#current', '#total', '.offer__slider-prev', 
+    '.offer__slider-next','.offer__slider-wrapper', '.offer__slider-inner');
 
 });
