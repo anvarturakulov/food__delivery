@@ -280,6 +280,55 @@
 
 
 
+  // Методы массивов
+ // filter *****
+  
+  let names = ['Ivan', 'Ann', 'Kseniya', 'Voldemart'];
 
+  let arr = names.filter((item) => {
+      return item.length < 5;
+  });
 
+  console.log(arr);
 
+  // map ***
+  names = ['IvAn', 'AnAn', 'KSeniya', 'VOLdemart'];
+
+  arr = names.map((item) => item.toLocaleLowerCase());
+  
+  console.log(arr);
+
+  // every/some
+
+  //const some = [4, 'sdsdd', 'ggfgfggg']; 
+  // some - хоть какой нибудь
+  // every - Все элементы
+  
+  const some = [4, 18, 5];
+  console.log(some.some(item => typeof(item) != 'number'));
+
+  console.log(some.every(item => typeof(item) == 'number'));
+
+  // reduce - Схлопать все. Например найти суммы всех элементов
+
+  arr = [4, 5, 9, 16, 1];
+  
+  let result = arr.reduce((sum, current) => sum + current);
+  console.log(result);
+
+  arr = ['Anvar', 'Mansur', 'Aziza'];
+  result = arr.reduce((concat, current) => {
+      return `${concat} -- ${current} `;
+  }, 'Oila azolari');
+
+  console.log(result);
+
+  const obj = {
+      ivan : 'persone',
+      ann : 'persone',
+      dog : 'animal',
+      cat : 'animal'
+  };
+
+  let newArr = Object.entries(obj).filter(item => item[1] == 'persone').map(item => item[0]);
+  console.log(newArr);

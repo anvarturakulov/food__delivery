@@ -320,4 +320,65 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
     }
 
+    // Slider
+
+    function sliderConstruct(sliderItemDiv,currentNumberTitleDiv,totalNumberTitlediv,
+        sliderBtnPrevDiv,sliderBtnNextDiv) {
+        
+        const sliderItems = document.querySelectorAll(sliderItemDiv),
+              currentNumberTitle = document.querySelector(currentNumberTitleDiv),
+              totalNumberTitle = document.querySelector(totalNumberTitlediv),
+              sliderBtnPrev = document.querySelector(sliderBtnPrevDiv),
+              sliderBtnNext = document.querySelector(sliderBtnNextDiv);
+        
+        let currentSliderIndex = 0;
+
+        function numberToText(num) {
+            if (num <10 && num > 0) {
+                return `0${num}`;
+            }
+            else {
+                return `${num}`;
+            }
+        }
+
+        function showSliderItem(index) {
+            sliderItems.forEach(item => {
+                item.classList.add('hide');
+                item.classList.remove('show');
+            });
+            sliderItems[index].classList.add('show', 'fade');
+            sliderItems[index].classList.remove('hide');
+            
+            currentNumberTitle.textContent = numberToText(index+1);
+            totalNumberTitle.textContent = numberToText(sliderItems.length);
+        }
+
+        function currentSliderNumber(index, side, sliderItems) {
+            let currentIndex;
+            if (side) {
+                currentIndex = ++index;
+                if (currentIndex > sliderItems.length-1) {currentIndex = 0;}
+            } else {
+                currentIndex = --index;
+                if (currentIndex < 0) {currentIndex = sliderItems.length-1;}
+            }
+            return currentIndex;
+        }
+
+        sliderBtnPrev.addEventListener('click', ()=> {
+            currentSliderIndex =  currentSliderNumber(currentSliderIndex, false, sliderItems);
+            showSliderItem(currentSliderIndex);
+        });
+    
+        sliderBtnNext.addEventListener('click', ()=> {
+            currentSliderIndex =  currentSliderNumber(currentSliderIndex, true, sliderItems);
+            showSliderItem(currentSliderIndex);
+        });
+
+        showSliderItem(currentSliderIndex);
+    }
+
+    sliderConstruct('.offer__slide','#current', '#total', '.offer__slider-prev', '.offer__slider-next');
+
 });
