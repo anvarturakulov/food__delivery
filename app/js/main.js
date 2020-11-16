@@ -394,9 +394,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         width = +width.slice(0,width.length-2);
 
         let currentSliderIndex = 0;
-        
-        titleNumberSlide(currentSliderIndex);
-        
+        let dots;
         sliderInner.style.width = 100*sliderItems.length+'%';
         sliderInner.style.display = 'flex';
         sliderInner.style.transition = '0.5s all';
@@ -417,7 +415,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
             currentNumberTitle.textContent = numberToText(index+1);
             totalNumberTitle.textContent = numberToText(sliderItems.length);
         }
-
 
         function motionSlider(index, side, sliderItems) {
             if (side) {
@@ -442,6 +439,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
             
             titleNumberSlide(currentSliderIndex);
+            dotsActive();   
         }
 
         sliderBtnPrev.addEventListener('click', ()=> {
@@ -452,6 +450,41 @@ document.addEventListener('DOMContentLoaded', ()=>{
             motionSlider(currentSliderIndex, true, sliderItems);
         });
         
+             
+        function dotsConstructor() {
+            
+            const indicators = document.createElement('div');
+            indicators.classList.add('carousel-indicators');
+
+            sliderWrapper.append(indicators);
+            sliderWrapper.style.position = 'relative';
+                     
+            for (let i=0; i < sliderItems.length; i++) {
+                let dot = document.createElement('div');
+                dot.classList.add('dot');
+                indicators.append(dot);
+            }
+
+            dots = document.querySelectorAll('.dot');
+            //console.log(dots);
+        }
+
+        function dotsActive() {
+            dots.forEach((item) => {
+                item.classList.remove('active');
+            });
+            dots[currentSliderIndex].classList.add('active');
+        }
+
+        dotsConstructor();
+        dotsActive();
+
+        dots.forEach((item, ind) => {
+            item.addEventListener('click', (e) =>{
+                motionSlider((ind+1), false, sliderItems);  
+            });
+        });
+    
     }
 
 
@@ -459,4 +492,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
     sliderCaruselConstruct('.offer__slide','#current', '#total', '.offer__slider-prev', 
     '.offer__slider-next','.offer__slider-wrapper', '.offer__slider-inner');
 
+    
 });
